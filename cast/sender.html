@@ -40,9 +40,8 @@
   <form class="form-horizontal">
     <p>
       <legend>Here are the available Chromecasts near you:</legend>
-      <label ng-repeat="rec in vm.receivers">
-        <input type="radio" ng-model="vm.selectedReceiver" name="selectedReceiver" value="{{rec}}"/> {{rec.name}}
-      </label>
+      <select ng-model="vm.selectedReceiver" ng-options="rec as rec.name for rec in vm.receivers"></select>
+      select as label for value in array
 
     </p>
   </form>
