@@ -1,47 +1,15 @@
-<html>
-<head>
-  <title>AFro Receiver App</title>
-</head>
-<body style="background-color:greenyellow;">
-<div class="messages">
-  <h1>Waiting for Messages...</h1>
-</div>
-</body>
-<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-<script src="http://underscorejs.org/underscore-min.js"></script>
-<script src="https://www.gstatic.com/cast/js/receiver/1.0/cast_receiver.js"></script>
-<script>
-  $(function() {
-    var namespace = "AF-GDG-GOOGLECAST-DEMO";
-    var receiver = new cast.receiver.Receiver('696627a5-d66b-4a7f-b8cc-b701b76e47b8_1', [namespace]),
-        channelHandler = new cast.receiver.ChannelHandler(namespace),
-        $messages = $('.messages');
-
-    channelHandler.addChannelFactory(
-        receiver.createChannelFactory(namespace));
-
-    receiver.start();
-
-    channelHandler.addEventListener(cast.receiver.Channel.EventType.MESSAGE, onMessage.bind(this));
-
-    function onMessage(event) {
-      var html = "";
-      html+="<p>Name: "+event.message.name+"</p>";
-      html+="<p>Email: "+event.message.email+"</p>";
-      html+="<p>Favorite Saying: "+event.message.favorite+"</p>";
-
-      $messages.html(event.message.type);
-      $messages.append(html);
-      //WE NEED TO DO SOMETHING WITH event.message.randomWord
-
-
-      setTimeout(function(){
-        //CLOSES BACK TO THE MAIN SCREEN
-        window.close();
-      }, 5000);
-
-
-    }
-  });
-</script>
+<html ng-app ng-controller="oktvReceiverCtrl">
+  <head>
+    <title>OK TV Receiver App</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link href="app.css" rel="stylesheet">
+  </head>
+  <body>
+    <h1>Say a command...</h1>
+    <br>
+    <h2>{{vm.command}}</h2>
+  </body>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.min.js"></script>
+  <script src="https://www.gstatic.com/cast/js/receiver/1.0/cast_receiver.js"></script>
+  <script src="receiver.js"></script>
 </html>

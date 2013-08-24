@@ -22,21 +22,31 @@ angular.module('castReady', []).
     };
   });
 
+
 var castApp = angular.module('castApp',['castReady']);
+
 
 castApp.controller('CastController',['castReady','$scope', function(castReady,$scope) {
   
+  var namespace = "OKTV-GDG-GOOGLECAST-DEMO";
+  var castAppId = '696627a5-d66b-4a7f-b8cc-b701b76e47b8_1';
+
   $scope.vm = {};
 
   $scope.fn = {
     onReceiverList: function(list) {
       $scope.$apply(function() {
+        console.log(list.length,' Receiver(s) loaded');
         $scope.vm.receivers = list;
         if (list.length > 0) $scope.vm.selectedReceiver = list[0];
+        else {
+          $scope.vm.selectedReceiver = null;
+          // where did all the chromecasts go?
+        }
       });
     },
     launch: function() {
-      var request = new cast.LaunchRequest("696627a5-d66b-4a7f-b8cc-b701b76e47b8_1", $scope.vm.selectedReceiver);
+      var request = new cast.LaunchRequest(castAppId, $scope.vm.selectedReceiver);
       request.description = new cast.LaunchDescription();
       request.description.text = "HELLO GDG MISSOULA";
       request.description.url = "https://developers.google.com/groups/chapter/111917982940065392922/";
@@ -45,14 +55,8 @@ castApp.controller('CastController',['castReady','$scope', function(castReady,$s
     onLaunch: function(activity) {
       console.log('In Launch Request Callback')
       if (activity.status === 'running') {
-
-        //REMIND ME TO PUT IN A RANDOM WORD HERE
-        $scope.vm.castApi.sendMessage(activity.activityId, 'AF-GDG-GOOGLECAST-DEMO', {
-          type: 'Hello GDG Missoula',
-          name: $scope.vm.name,
-          email: $scope.vm.email,
-          favorite: $scope.vm.saying,
-          randomWord:'Queen is the best band EVAR!!!'
+        $scope.vm.castApi.sendMessage(activity.activityId, namespace, {
+          command: $scope.vm.command
         });
       }
     }
@@ -62,86 +66,8 @@ castApp.controller('CastController',['castReady','$scope', function(castReady,$s
   castReady().then(function() {
     $scope.vm.castApi = new cast.Api();
     $scope.vm.castApi.addReceiverListener("YouTube", $scope.fn.onReceiverList);
-    console.log('Lets do stuff');
   });
 
 
 
 }]);
-
-
- /*
-var cast, cast_api, cv_activity, receivers, selectedReceiver, sending;
-
-if (cast && cast.isAvailable) {
-  // Cast is known to be available
-  init();
-} else {
-  // Wait for API to post a message to us
-  window.addEventListener("message", function(event) {
-    if (event.source == window && event.data &&
-      event.data.source == "CastApi" &&
-      event.data.event == "Hello")
-      init();
-  });
-}
-
-function init(){
-  // the @cast object get populated by the Chromecast extension once it validates that this is a true sender page
-  cast_api = new cast.Api();
-
-  // Find all devices that are nearby that are capable of performing "YouTube" activities, AKA: All Nearby Chromecasts
-  cast_api.addReceiverListener("YouTube", onReceiverList);
-
-  $('.btn.btn-success').show().on('click', function(){
-    sendSomethingToBloodyReceiver(selectedReceiver);
-  });
-
-}
-
-function onReceiverList(list) {
-  if((receivers && receivers.length) || !list || !list.length) return;
-  receivers = list;
-  $('.receivers').empty();
-  receivers.forEach(function(receiver) {
-    $listItem = $('<li><a data-id="' + receiver.id + '">' + receiver.name + '</a></li>');
-    $listItem.on('click', function(e){
-      var $target = $(e.target);
-      selectedReceiver = _.find(receivers, function(receiver){
-        return receiver.id === $target.data('id');
-      });
-      console.log('selectedReceiver', selectedReceiver);
-      
-    });
-    $('.receivers').append($listItem);
-
-  });
-}
-
-function sendSomethingToBloodyReceiver(r){
-  if(sending) return;
-  sending = true;
-  console.log('Sending Launch Request');
-  var request = new cast.LaunchRequest("696627a5-d66b-4a7f-b8cc-b701b76e47b8_1", r);
-  request.description = new cast.LaunchDescription();
-  request.description.text = "HELLO GDG UTAH";
-  request.description.url = "https://developers.google.com/groups/chapter/111917982940065392922/";
-  cast_api.launch(request, onLaunch);
-}
-
-function onLaunch(activity){
-  console.log('In Launch Request Callback')
-  if (activity.status === 'running') {
-    cv_activity = activity;
-
-    //REMIND ME TO PUT IN A RANDOM WORD HERE
-    cast_api.sendMessage(cv_activity.activityId, 'AF-GDG-GOOGLECAST-DEMO', {
-      type: 'Hello GDG Utah',
-      name: $('#name').val(),
-      email: $('#email').val(),
-      favorite: $('#favorite').val(),
-      randomWord:'Queen is the best band EVAR!!!'
-    });
-  }
-}
-*/

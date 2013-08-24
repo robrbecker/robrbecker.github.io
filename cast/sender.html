@@ -1,51 +1,32 @@
 <!DOCTYPE html>
 <html data-cast-api-enabled="true" ng-app="castApp" ng-controller="CastController" >
   <head>
-    <title>Google Cast Demo</title>
+    <title>OK TV</title>
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
     <link href="app.css" rel="stylesheet">
   </head>
   <body class="ng-cloak">
   <div class="page-header">
-    <h1>GDG Sender App v3</h1>
+    <h1>Ok TV</h1>
   </div>
   
-
-
   <form class="form-horizontal">
     <p>
-
-      <legend>We will post these fields to the receiver app on the Chromecast</legend>
       <div class="control-group">
-        <label class="control-label" for="name">Name</label>
-        <div class="controls">
-          <input type="text" ng-model="vm.name" placeholder="Enter you name here"/>
-        </div>
+        <label>
+          Say or type a command <input type="text" ng-model="vm.command" placeholder="Enter you name here"/>
+        </label>
       </div>
-      <div class="control-group">
-        <label class="control-label" for="email">Email</label>
-        <div class="controls">
-          <input type="text" ng-model="vm.email" placeholder="Enter you email address"/>
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="favorite">Favorite Saying</label>
-        <div class="controls">
-          <input type="text" nb-model="vm.saying" placeholder="Enter you favorite saying"/>
-        </div>
-      </div>
-
     </p>
   </form>
+
   <form class="form-horizontal">
     <p>
-      <legend>Here are the available Chromecasts near you:</legend>
+      <legend>Select the Chromecast to send to:</legend>
       <select ng-model="vm.selectedReceiver" ng-options="rec as rec.name for rec in vm.receivers"></select>
-      select as label for value in array
-
     </p>
   </form>
-{{vm.selectedReceiver|json}}
+
   <div class="btn btn-success" ng-click="fn.launch()" ng-disabled="!vm.selectedReceiver">Send To Chromecast</div>
 
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.min.js"></script>
