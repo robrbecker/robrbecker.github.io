@@ -30,8 +30,8 @@
       }
 
       channelHandler.addChannelFactory(receiver.createChannelFactory(namespace));
-      channelHandler.addEventListener(cast.receiver.Channel.EventType.MESSAGE, onMessage);
       receiver.start();
+      channelHandler.addEventListener(cast.receiver.Channel.EventType.MESSAGE, onMessage);
 
     </script>
 <!--
