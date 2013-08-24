@@ -8,7 +8,7 @@ var castApp = angular.module('castApp',['castReady']);
 
 castApp.controller('CastController',['castReady','$scope', function(castReady,$scope) {
   
-  var namespace = "OKTV-GDG-DEMO";
+  var namespace = "AF-GDG-GOOGLECAST-DEMO";
   var castAppId = '696627a5-d66b-4a7f-b8cc-b701b76e47b8_1';
 
   $scope.vm = {
@@ -31,11 +31,11 @@ castApp.controller('CastController',['castReady','$scope', function(castReady,$s
     },
     launch: function() {
       console.log('launching',castAppId, $scope.vm.selectedReceiver);
-      var request = new cast.LaunchRequest(castAppId, $scope.vm.selectedReceiver);
-      request.description = new cast.LaunchDescription();
-      request.description.text = "HELLO GDG MISSOULA";
-      request.description.url = "https://developers.google.com/groups/chapter/111917982940065392922/";
-      $scope.vm.castApi.launch(request, $scope.fn.onLaunch);
+      $scope.vm.launchRequest = new cast.LaunchRequest(castAppId, $scope.vm.selectedReceiver);
+      $scope.vm.launchRequest.description = new cast.LaunchDescription();
+      $scope.vm.launchRequest.description.text = "HELLO GDG MISSOULA";
+      $scope.vm.launchRequest.description.url = "https://developers.google.com/groups/chapter/111917982940065392922/";
+      $scope.vm.castApi.launch($scope.vm.launchRequest, $scope.fn.onLaunch);
     },
     onLaunch: function(activity) {
       console.log('In Launch Request Callback', activity);

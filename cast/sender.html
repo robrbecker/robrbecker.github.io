@@ -26,12 +26,11 @@
     <legend>Select the Chromecast to send to:</legend>
     <select ng-model="vm.selectedReceiver" ng-options="rec as rec.name for rec in vm.receivers"></select>
     <button class="btn btn-success" ng-click="fn.launch()" ng-disabled="!vm.selectedReceiver">Launch on Chromecast</button>
-
-    <p>Receiver Running on {{vm.selectedReceiver.name}}: {{vm.activity.running}}
-      <i class="icon-check" style="color:green" ng-show="vm.activity.running"></i>
-      <i class="icon-check-empty" style="color:red" ng-hide="vm.activity.running"></i>
-    </p>
   </form>
+
+  Receiver Running on {{vm.selectedReceiver.name}}: {{vm.activity.running}}
+  <br>
+  Launch Request: {{vm.launchRequest|json}}
 
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.min.js"></script>
   <script type="text/javascript" src="angular-castready.js"></script>
