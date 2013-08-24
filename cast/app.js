@@ -28,7 +28,7 @@ var castApp = angular.module('castApp',['castReady']);
 
 castApp.controller('CastController',['castReady','$scope', function(castReady,$scope) {
   
-  var namespace = "OKTV";
+  var namespace = "OKTV-GDG-DEMO";
   var castAppId = '696627a5-d66b-4a7f-b8cc-b701b76e47b8_1';
 
   $scope.vm = {
