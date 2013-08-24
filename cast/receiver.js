@@ -5,7 +5,7 @@ function oktvReceiverCtrl($scope, $timeout) {
     var receiver = new cast.receiver.Receiver(castAppId, [namespace]);
     var channelHandler = new cast.receiver.ChannelHandler(namespace);
     var timeoutMS = 10000;
-    var idleTimeout = $timeout(function(){ window.close();}, timeoutMS)
+    //var idleTimeout = $timeout(function(){ window.close();}, timeoutMS)
 
     $scope.vm = {
       commandsReceived: 0,
@@ -20,8 +20,8 @@ function oktvReceiverCtrl($scope, $timeout) {
 
 
     function onMessage(event) {
-      $timeout.cancel(idleTimeout);
-      idleTimeout = $timeout(function(){ window.close();}, timeoutMS)
+      //$timeout.cancel(idleTimeout);
+      //idleTimeout = $timeout(function(){ window.close();}, timeoutMS)
       $scope.$apply(function() {
         $scope.vm.commandsReceived = $scope.vm.commandsReceived + 1;
         $scope.vm.command = event.message.command;

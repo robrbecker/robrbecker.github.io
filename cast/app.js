@@ -31,7 +31,11 @@ castApp.controller('CastController',['castReady','$scope', function(castReady,$s
   var namespace = "OKTV";
   var castAppId = '696627a5-d66b-4a7f-b8cc-b701b76e47b8_1';
 
-  $scope.vm = {};
+  $scope.vm = {
+    activity: { running: false}
+  };
+  
+  window.vm = $scope.vm; // BAD!
 
   $scope.fn = {
     onReceiverList: function(list) {
@@ -53,18 +57,25 @@ castApp.controller('CastController',['castReady','$scope', function(castReady,$s
       $scope.vm.castApi.launch(request, $scope.fn.onLaunch);
     },
     onLaunch: function(activity) {
-      console.log('In Launch Request Callback')
-      if (activity.status === 'running') {
+      $scope.vm.activity = activity;
+      console.log('In Launch Request Callback', activity);
+    },
+    sendMessage: function(string) {
+      if ($scope.vm.activity.status === 'running') {
 
         //REMIND ME TO PUT IN A RANDOM WORD HERE
         $scope.vm.castApi.sendMessage(activity.activityId, namespace, {
           command: $scope.vm.command,
           type: 'Hello GDG Missoula',
-          name: $scope.vm.name,
-          email: $scope.vm.email,
-          favorite: $scope.vm.saying,
+          name: '',
+          email: '',
+          favorite: '',
           randomWord:'Queen is the best band EVAR!!!'
         });
+      } else {
+        // relaunch
+        console.log('activity is not running');
+        //$scope.fn.launch(  TODO CALL BACK);
       }
     }
   }
