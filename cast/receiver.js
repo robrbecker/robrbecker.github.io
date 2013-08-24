@@ -7,7 +7,7 @@ function oktvReceiverCtrl($scope, $timeout) {
     var idleTimeout = $timeout(function(){ window.close();}, 10000)
 
     $scope.vm = {
-      commandsReceived: 0;
+      commandsReceived: 0,
       command: 'like: OK TV, watch House of Cards'
     }
 
@@ -22,7 +22,7 @@ function oktvReceiverCtrl($scope, $timeout) {
       $timeout.cancel(idleTimeout);
       idleTimeout = $timeout(function(){ window.close();}, 10000)
       $scope.$apply(function() {
-        $scope.vm.commandsReceived++;
+        $scope.vm.commandsReceived = $scope.vm.commandsReceived + 1;
         $scope.vm.command = event.message.command;
       });
     }
