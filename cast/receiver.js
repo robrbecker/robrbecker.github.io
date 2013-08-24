@@ -9,7 +9,7 @@ function oktvReceiverCtrl($scope, $timeout) {
     $scope.vm = {
       commandsReceived: 0,
       command: 'like: OK TV, watch House of Cards'
-    }
+    };
 
     channelHandler.addChannelFactory(receiver.createChannelFactory(namespace));
 
