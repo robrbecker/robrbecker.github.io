@@ -3,26 +3,6 @@
   ONLY IF YOU HAVE THE CORRECT HTML TAG DECLARATIONS
  */
 
-// service that provides a promise for when the cast api is available
-angular.module('castReady', []).
-  factory('castReady', function ($rootScope, $q) {
-    var loadingDeferred = $q.defer();
-
-    window.addEventListener('message', function() {
-       if (event.source == window && event.data &&
-           event.data.source == "CastApi" &&
-           event.data.event == "Hello") {
-
-         console.log('ChromeCast API ready');
-         $rootScope.$apply(loadingDeferred.resolve);
-       }
-    });
-    return function castReady() {
-      return loadingDeferred.promise;
-    };
-  });
-
-
 var castApp = angular.module('castApp',['castReady']);
 
 
@@ -50,6 +30,7 @@ castApp.controller('CastController',['castReady','$scope', function(castReady,$s
       });
     },
     launch: function() {
+      console.log('launching',castAppId, $scope.vm.selectedReceiver);
       var request = new cast.LaunchRequest(castAppId, $scope.vm.selectedReceiver);
       request.description = new cast.LaunchDescription();
       request.description.text = "HELLO GDG MISSOULA";
@@ -57,8 +38,10 @@ castApp.controller('CastController',['castReady','$scope', function(castReady,$s
       $scope.vm.castApi.launch(request, $scope.fn.onLaunch);
     },
     onLaunch: function(activity) {
-      $scope.vm.activity = activity;
       console.log('In Launch Request Callback', activity);
+      $scope.$apply(function() {
+        $scope.vm.activity = activity;
+      });
     },
     sendMessage: function(string) {
       if ($scope.vm.activity.status === 'running') {

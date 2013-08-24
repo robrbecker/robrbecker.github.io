@@ -4,53 +4,70 @@
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
     <link href="app.css" rel="stylesheet">
   </head>
-  <body class="receiver ng-cloak">
+  <body class="receiver">
     <h1>Ready? ({{vm.loaded}}) Say a command...</h1>
     <br>
-    <h2>Received: {{vm.command}}</h2>
+    <h2 id="msg">Received: {{vm.command}}</h2>
     <br>
     <h3>Commands Received: {{vm.commandsReceived}}
-  </body>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.min.js"></script>
-  <script src="https://www.gstatic.com/cast/js/receiver/1.0/cast_receiver.js"></script>
- 
-  <script>
-  var oktvReceiver = angular.module('oktvReceiver',[]);
-
-function oktvReceiverCtrl($scope, $timeout) {
+  <!--
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.min.js"></script>
+    <script type="text/javascript" src="angular-castready.js"></script>
+  -->
+    <script src="https://www.gstatic.com/cast/js/receiver/1.0/cast_receiver.js"></script>
+   
+    <script>
     
-    var namespace = "OKTV-GDG-DEMO";
-    var castAppId = '696627a5-d66b-4a7f-b8cc-b701b76e47b8_1';
-    var receiver = new cast.receiver.Receiver(castAppId, [namespace]);
-    var channelHandler = new cast.receiver.ChannelHandler(namespace);
-    var timeoutMS = 10000;
-    //var idleTimeout = $timeout(function(){ window.close();}, timeoutMS)
+      var namespace = "OKTV-GDG-DEMO";
+      var castAppId = '696627a5-d66b-4a7f-b8cc-b701b76e47b8_1';
+      var receiver = new cast.receiver.Receiver(castAppId, [namespace]);
+      var channelHandler = new cast.receiver.ChannelHandler(namespace);
+      var timeoutMS = 10000;
 
-    $scope.vm = {
-      commandsReceived: 0,
-      command: 'like: OK TV, watch House of Cards',
-      loaded: 'Yep'
-    };
-
-    window.scope = $scope; // BAD!
-
-    $scope.fn = {
-      onMessage: function(event) {
+      var onMessage = function(event) {
         console.log('hoop',event);
-        //$timeout.cancel(idleTimeout);
-        //idleTimeout = $timeout(function(){ window.close();}, timeoutMS)
-        $scope.$apply(function() {
-          $scope.vm.commandsReceived = $scope.vm.commandsReceived + 1;
-          $scope.vm.command = event.message.command;
-        });
+        document.getElementById('msg').innerHTML ='Received:' + event.message.command;
       }
-    };
 
-    channelHandler.addChannelFactory(receiver.createChannelFactory(namespace));
-    channelHandler.addEventListener(cast.receiver.Channel.EventType.MESSAGE, $scope.fn.onMessage);
-    receiver.start();
-    
-}
+      channelHandler.addChannelFactory(receiver.createChannelFactory(namespace));
+      channelHandler.addEventListener(cast.receiver.Channel.EventType.MESSAGE, onMessage);
+      receiver.start();
 
-  </script>
+    </script>
+<!--
+    <script>
+    var oktvReceiver = angular.module('oktvReceiver',[]);
+
+  function oktvReceiverCtrl($scope, $timeout) {
+      
+     
+      //var idleTimeout = $timeout(function(){ window.close();}, timeoutMS)
+
+      $scope.vm = {
+        commandsReceived: 0,
+        command: 'like: OK TV, watch House of Cards',
+        loaded: 'Yep'
+      };
+
+      window.scope = $scope; // BAD!
+
+      $scope.fn = {
+        onMessage: function(event) {
+          console.log('hoop',event);
+          //$timeout.cancel(idleTimeout);
+          //idleTimeout = $timeout(function(){ window.close();}, timeoutMS)
+          $scope.$apply(function() {
+            $scope.vm.commandsReceived = $scope.vm.commandsReceived + 1;
+            $scope.vm.command = event.message.command;
+          });
+        }
+      };
+
+      
+      
+  }
+
+    </script>
+  -->
+  </body>
 </html>

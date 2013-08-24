@@ -1,36 +1,19 @@
-/*
- * angular-cast-ready v0.0.1
- * (c) 2013 Rob Becker http://robrbecker.com
- * License: MIT
- */
-
-'use strict';
-
+// service that provides a promise for when the cast api is available
 angular.module('castReady', []).
-  factory('castReady', function ($rootScope) {
-    return function (fn) {
-      var queue = [];
+  factory('castReady', function ($rootScope, $q) {
+    var loadingDeferred = $q.defer();
 
-      var impl = function () {
-        queue.push(Array.prototype.slice.call(arguments));
-      };
+    window.addEventListener('message', function() {
+       if (event.source == window && event.data &&
+           event.data.source == "CastApi" &&
+           event.data.event == "Hello") {
 
-      document.addEventListener('message', function (event) {
-        debugger;
-        if (event.source == window && event.data && 
-            event.data.source == "CastApi" &&
-            event.data.event == "Hello") {
-
-
-          queue.forEach(function (args) {
-            fn.apply(this, args);
-          });
-          impl = fn;
-        }
-      }, false);
-      
-      return function () {
-        return impl.apply(this, arguments);
-      };
+         console.log('ChromeCast API ready');
+         $rootScope.$apply(loadingDeferred.resolve);
+       }
+    });
+    return function castReady() {
+      return loadingDeferred.promise;
     };
   });
+  
