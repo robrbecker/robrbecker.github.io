@@ -12,14 +12,8 @@ function oktvReceiverCtrl($scope, $timeout) {
       command: 'like: OK TV, watch House of Cards'
     };
 
-    channelHandler.addChannelFactory(receiver.createChannelFactory(namespace));
-
-    receiver.start();
-
-    channelHandler.addEventListener(cast.receiver.Channel.EventType.MESSAGE, onMessage.bind(this));
-
-
     function onMessage(event) {
+      console.log('hoop',event);
       //$timeout.cancel(idleTimeout);
       //idleTimeout = $timeout(function(){ window.close();}, timeoutMS)
       $scope.$apply(function() {
@@ -27,4 +21,8 @@ function oktvReceiverCtrl($scope, $timeout) {
         $scope.vm.command = event.message.command;
       });
     }
+
+    channelHandler.addChannelFactory(receiver.createChannelFactory(namespace));
+    channelHandler.addEventListener(cast.receiver.Channel.EventType.MESSAGE, onMessage);
+    receiver.start();
 }
