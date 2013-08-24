@@ -28,7 +28,7 @@ var castApp = angular.module('castApp',['castReady']);
 
 castApp.controller('CastController',['castReady','$scope', function(castReady,$scope) {
   
-  var namespace = "OKTV-GDG-GOOGLECAST-DEMO";
+  var namespace = "OKTV";
   var castAppId = '696627a5-d66b-4a7f-b8cc-b701b76e47b8_1';
 
   $scope.vm = {};
@@ -55,8 +55,15 @@ castApp.controller('CastController',['castReady','$scope', function(castReady,$s
     onLaunch: function(activity) {
       console.log('In Launch Request Callback')
       if (activity.status === 'running') {
+
+        //REMIND ME TO PUT IN A RANDOM WORD HERE
         $scope.vm.castApi.sendMessage(activity.activityId, namespace, {
-          command: $scope.vm.command
+          command: $scope.vm.command,
+          type: 'Hello GDG Missoula',
+          name: $scope.vm.name,
+          email: $scope.vm.email,
+          favorite: $scope.vm.saying,
+          randomWord:'Queen is the best band EVAR!!!'
         });
       }
     }
