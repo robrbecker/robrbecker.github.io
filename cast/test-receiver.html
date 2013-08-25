@@ -25,6 +25,8 @@
     channelHandler.addEventListener(cast.receiver.Channel.EventType.MESSAGE, onMessage.bind(this));
 
     function onMessage(event) {
+      $messages.html(event.message.name);
+      /*
       var html = "";
       html+="<p>Name: "+event.message.name+"</p>";
       html+="<p>Email: "+event.message.email+"</p>";
@@ -33,7 +35,7 @@
       $messages.html(event.message.type);
       $messages.append(html);
       //WE NEED TO DO SOMETHING WITH event.message.randomWord
-
+*/
 
       setTimeout(function(){
         //CLOSES BACK TO THE MAIN SCREEN

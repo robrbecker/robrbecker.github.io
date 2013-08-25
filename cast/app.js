@@ -8,7 +8,7 @@ var castApp = angular.module('castApp',['castReady']);
 
 castApp.controller('CastController',['castReady','$scope', function(castReady,$scope) {
   
-  var namespace = "OKTV-GDG-DEMO";
+  var namespace = "AF-GDG-GOOGLECAST-DEMO";
   var castAppId = '696627a5-d66b-4a7f-b8cc-b701b76e47b8_1';
 
   $scope.vm = {
@@ -50,7 +50,7 @@ castApp.controller('CastController',['castReady','$scope', function(castReady,$s
         $scope.vm.castApi.sendMessage(activity.activityId, namespace, {
           command: $scope.vm.command,
           type: 'Hello GDG Missoula',
-          name: '',
+          name: $scope.vm.command,
           email: '',
           favorite: '',
           randomWord:'Queen is the best band EVAR!!!'
