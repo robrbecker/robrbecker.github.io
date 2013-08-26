@@ -2,7 +2,8 @@
 <html data-cast-api-enabled="true" ng-app="castApp" ng-controller="CastController" >
   <head>
     <title>OK TV</title>
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
     <link href="app.css" rel="stylesheet">
   </head>
   <body class="sender">
@@ -15,8 +16,11 @@
       <div class="control-group">
         <label>
           Say or type a command <input type="text" ng-model="vm.command" placeholder="like: OK TV, watch cats" ng-change="fn.sendMessage(vm.command)"/>
+          <span ng-class="{innercircle:1,active:vm.listening}" ng-click="fn.toggleListening()"><i class="icon-microphone"></i></span>
         </label>
         
+        
+        <div class="clear"></div>
       </div>
     </p>
   </form>

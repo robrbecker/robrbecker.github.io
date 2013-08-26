@@ -44,10 +44,11 @@ castApp.controller('CastController',['castReady','$scope', function(castReady,$s
       });
     },
     sendMessage: function(string) {
+      console.log('Sending message');
       if ($scope.vm.activity.status === 'running') {
 
         //REMIND ME TO PUT IN A RANDOM WORD HERE
-        $scope.vm.castApi.sendMessage(activity.activityId, namespace, {
+        $scope.vm.castApi.sendMessage($scope.vm.activity.activityId, namespace, {
           command: $scope.vm.command,
           type: 'Hello GDG Missoula',
           name: $scope.vm.command,
@@ -60,6 +61,10 @@ castApp.controller('CastController',['castReady','$scope', function(castReady,$s
         console.log('activity is not running');
         //$scope.fn.launch(  TODO CALL BACK);
       }
+    },
+    toggleListening: function() {
+      if ($scope.vm.listening) $scope.recognition.stop();
+      else $scope.recognition.start();
     }
   }
 
@@ -67,6 +72,49 @@ castApp.controller('CastController',['castReady','$scope', function(castReady,$s
   castReady().then(function() {
     $scope.vm.castApi = new cast.Api();
     $scope.vm.castApi.addReceiverListener("YouTube", $scope.fn.onReceiverList);
+    $scope.recognition = new webkitSpeechRecognition();
+    $scope.recognition.continuous = true;
+    $scope.recognition.interimResults = false;
+    $scope.vm.listening = true;
+    $scope.recognition.start();
+
+    $scope.recognition.onstart = function() {
+      $scope.$apply(function() {
+        $scope.vm.listening = true;
+      })
+    };
+
+    $scope.recognition.onend = function() {
+      $scope.$apply(function() {
+        $scope.vm.listening = false;
+      })
+    };
+
+    $scope.recognition.onresult = function(event) {
+      console.log(event);
+      
+      var final_transcript = '';
+      var interim_transcript = '';
+      for (var i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          final_transcript += event.results[i][0].transcript;
+        } else {
+          interim_transcript += event.results[i][0].transcript;
+        }
+      }
+      $scope.$apply(function() {
+        $scope.vm.command = final_transcript;
+        $scope.fn.sendMessage(final_transcript);
+      });
+      /*
+      final_transcript = capitalize(final_transcript);
+      final_span.innerHTML = linebreak(final_transcript);
+      interim_span.innerHTML = linebreak(interim_transcript);
+      if (final_transcript || interim_transcript) {
+        showButtons('inline-block');
+      }
+      */
+    };
   });
 
 

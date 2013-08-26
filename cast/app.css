@@ -14,3 +14,24 @@ body.sender {
 }
 label input[type=radio] { position:relative; bottom: 3px; }
 .ng-cloak { display: none;}
+
+.innercircle {
+  border: solid 1px #CCCCCC;
+  padding: 10px;
+  border-radius:50%;
+  cursor: pointer;
+  color: white;
+  background-color: #DDDDDD;
+  font-size: 2em;
+}
+
+.outercircle {
+  border: solid 1px #CCCCCC;
+  border-radius:50%;
+  
+}
+
+.innercircle.active {
+ background-color: #d2423b; 
+ border: 1px solid #b33731;
+}
