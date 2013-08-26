@@ -24,7 +24,13 @@
 
     channelHandler.addEventListener(cast.receiver.Channel.EventType.MESSAGE, onMessage.bind(this));
 
+    setTimeout(function(){
+        //CLOSES BACK TO THE MAIN SCREEN
+        window.close();
+      }, 10000);
+
     function onMessage(event) {
+      console.log('Received event',event);
       $messages.html(event.message.name);
       /*
       var html = "";
@@ -37,10 +43,6 @@
       //WE NEED TO DO SOMETHING WITH event.message.randomWord
 */
 
-      setTimeout(function(){
-        //CLOSES BACK TO THE MAIN SCREEN
-        window.close();
-      }, 5000);
 
 
     }
