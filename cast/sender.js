@@ -106,15 +106,17 @@ castApp.controller('CastController',['castReady','$scope', function(castReady,$s
           interim_transcript += event.results[i][0].transcript;
         }
       }
-
+      final_transcript = final_transcript.toLowerCase().trim();
       //console.log(interim_transcript);
-      console.log(final_transcript);
+      console.log('['+final_transcript+']');
 
       $scope.$apply(function() {
 
-        $scope.vm.command = final_transcript.toLowerCase();
-        if ($scope.vm.command == 'okay tv') $scope.fn.launch();
-        $scope.fn.sendMessage(final_transcript);
+        $scope.vm.command = final_transcript;
+        if ($scope.vm.command == 'okay tv' ||
+          $scope.vm.command == 'locate tv' ||
+          $scope.vm.command == 'launch') $scope.fn.launch();
+        $scope.fn.sendMessage($scope.vm.command);
       });
     };
   });
