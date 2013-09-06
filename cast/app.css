@@ -36,9 +36,9 @@ label input[type=radio] { position:relative; bottom: 3px; }
  border: 1px solid #b33731;
 }
 
-.receiver h1 {
-  font-size: 5vw;
-  line-height: 5vw;
+.receiver header {
+  font-size: 6vh;
+  line-height: 7.3vh;
 }
 .red {
   color: red;
@@ -47,6 +47,7 @@ label input[type=radio] { position:relative; bottom: 3px; }
 .blue {
   color: blue;
 }
+.green { color: green;}
 iframe {
   border: none;
   width: 99%;
