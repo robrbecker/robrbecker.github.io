@@ -6,37 +6,20 @@
   </head>
   <body class="receiver">
     <div id="content">
-      <h1>Ready? (<span ng-bind="vm.loaded">nope</span>) Say a command...</h1>
-      
-      <h1 id="msg">{{vm.command}}</h2>
-      
-      <h1>Commands Received: {{vm.commandsReceived}}
+      <h1>
+        Say something...
+        <br>
+        {{vm.commandsReceived}} {{vm.command}}
+      </h1>
     </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.min.js"></script>
-
     <script src="https://www.gstatic.com/cast/js/receiver/1.0/cast_receiver.js"></script>
     <script>
     
-var timeoutMS = 10000;
+var timeoutMS = 20000;
 var namespace = "OKTV-GDG-DEMO";
 var castAppId = '696627a5-d66b-4a7f-b8cc-b701b76e47b8_1';
-
-
-var receiver = new cast.receiver.Receiver(castAppId, [namespace]);
-var channelHandler = new cast.receiver.ChannelHandler(namespace);
-
-/*
-var onMessage = function(event) {
-  console.log('hoop',event);
-  document.getElementById('msg').innerHTML ='Received:' + event.message.command;
-}
-
-channelHandler.addChannelFactory(receiver.createChannelFactory(namespace));
-receiver.start();
-channelHandler.addEventListener(cast.receiver.Channel.EventType.MESSAGE, onMessage);
-*/
-
 
 var oktvReceiver = angular.module('oktvReceiver',[]);
 
@@ -61,11 +44,14 @@ function oktvReceiverCtrl($scope, $timeout) {
       $scope.idleTimeout = $timeout(shutItDown, timeoutMS, false);
       $scope.$apply(function() {
         $scope.vm.commandsReceived = $scope.vm.commandsReceived + 1;
-        $scope.vm.command = event.message.command;
+        $scope.vm.command = event.message.command.toLowerCase();
+        if ($scope.vm.command == 'shut it down') window.close();
       });
     }
   }
 
+  var receiver = new cast.receiver.Receiver(castAppId, [namespace]);
+  var channelHandler = new cast.receiver.ChannelHandler(namespace);
   channelHandler.addChannelFactory(receiver.createChannelFactory(namespace));
   receiver.start();
   channelHandler.addEventListener(cast.receiver.Channel.EventType.MESSAGE, $scope.fn.onMessage);
