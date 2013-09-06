@@ -54,8 +54,10 @@ function oktvReceiverCtrl($scope, $timeout, $sce) {
       $scope.$apply(function() {
         $scope.vm.commandsReceived = $scope.vm.commandsReceived + 1;
         $scope.vm.command = event.message.command.toLowerCase();
-        if ($scope.vm.command == 'shut it down') window.close();
-        else if ($scope.vm.command == 'rmef') {
+
+        if ($scope.vm.command == 'shut it down') {
+          window.close();
+        } else if ($scope.vm.command == 'rmef') {
           document.getElementById('content').innerHTML = '<iframe src="//www.rmef.org/"></iframe>';
         } else if ($scope.vm.command == 'watch cats') {
           document.getElementById('content').innerHTML = '<iframe src="//www.youtube.com/embed/FOcjBP06CJo?start=26&autoplay=1" frameborder="0" allowfullscreen></iframe>';
