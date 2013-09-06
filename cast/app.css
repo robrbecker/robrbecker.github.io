@@ -35,3 +35,8 @@ label input[type=radio] { position:relative; bottom: 3px; }
  background-color: #d2423b; 
  border: 1px solid #b33731;
 }
+
+.receiver h1 {
+  font-size: 5.4vw;
+  margin-bottom: 22vh;
+}

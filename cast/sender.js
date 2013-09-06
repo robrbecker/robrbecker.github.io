@@ -89,9 +89,13 @@ castApp.controller('CastController',['castReady','$scope', function(castReady,$s
         $scope.vm.listening = false;
       })
     };
+    
+    var logEvent = function(event) {
+      console.log(event);
+    }
+
 
     $scope.recognition.onresult = function(event) {
-      console.log(event);
       
       var final_transcript = '';
       var interim_transcript = '';
@@ -102,18 +106,16 @@ castApp.controller('CastController',['castReady','$scope', function(castReady,$s
           interim_transcript += event.results[i][0].transcript;
         }
       }
+
+      //console.log(interim_transcript);
+      console.log(final_transcript);
+
       $scope.$apply(function() {
+
+
         $scope.vm.command = final_transcript;
         $scope.fn.sendMessage(final_transcript);
       });
-      /*
-      final_transcript = capitalize(final_transcript);
-      final_span.innerHTML = linebreak(final_transcript);
-      interim_span.innerHTML = linebreak(interim_transcript);
-      if (final_transcript || interim_transcript) {
-        showButtons('inline-block');
-      }
-      */
     };
   });
 

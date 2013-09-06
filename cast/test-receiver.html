@@ -5,11 +5,13 @@
     <link href="app.css" rel="stylesheet">
   </head>
   <body class="receiver">
-    <h1>Ready? (<span ng-bind="vm.loaded">nope</span>) Say a command...</h1>
-    <br>
-    <h2 id="msg">Received: {{vm.command}}</h2>
-    <br>
-    <h3>Commands Received: {{vm.commandsReceived}}
+    <div id="content">
+      <h1>Ready? (<span ng-bind="vm.loaded">nope</span>) Say a command...</h1>
+      
+      <h1 id="msg">{{vm.command}}</h2>
+      
+      <h1>Commands Received: {{vm.commandsReceived}}
+    </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.min.js"></script>
 
@@ -45,7 +47,7 @@ function oktvReceiverCtrl($scope, $timeout) {
 
   $scope.vm = {
     commandsReceived: 0,
-    command: 'Nothing yet... say something!',
+    command: '...',
     loaded: 'Yep'
   };
 
