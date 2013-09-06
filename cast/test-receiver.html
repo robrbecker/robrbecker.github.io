@@ -10,7 +10,7 @@
         Say something...
         <br>
         <span ng-if="vm.commandsReceived>0">Msg #{{vm.commandsReceived}}</span>
-        <span class="vm.command">{{vm.command}}</span>
+        <span ng-class="vm.command">{{vm.command}}</span>
       </h1>
       <div id="content">
         
@@ -61,7 +61,10 @@ function oktvReceiverCtrl($scope, $timeout, $sce) {
           document.getElementById('content').innerHTML = '<iframe src="//www.rmef.org/"></iframe>';
         } else if ($scope.vm.command == 'watch cats') {
           document.getElementById('content').innerHTML = '<iframe src="//www.youtube.com/embed/FOcjBP06CJo?start=26&autoplay=1" frameborder="0" allowfullscreen></iframe>';
+        } else if ($scope.vm.command == 'show me a cute cat') {
+          document.getElementById('content').innerHTML = '<img src="cat.jpg"/>';
         }
+
       });
     }
   }

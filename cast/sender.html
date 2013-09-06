@@ -8,14 +8,14 @@
   </head>
   <body class="sender">
   <div class="page-header">
-    <h1>Ok TV Ya'll</h1>
+    <h1>Ok TV</h1>
   </div>
   
   <form class="form-horizontal">
     <p>
       <div class="control-group">
         <label>
-          Say or type a command <input type="text" ng-model="vm.command" placeholder="like: OK TV, watch cats" ng-change="fn.sendMessage(vm.command)"/>
+          Say or type a command <input type="text" ng-model="vm.command" placeholder="" ng-change="fn.sendMessage(vm.command)"/>
           <span ng-class="{innercircle:1,active:vm.listening}" ng-click="fn.toggleListening()"><i class="icon-microphone"></i></span>
         </label>
         
