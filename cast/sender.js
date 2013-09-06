@@ -112,8 +112,8 @@ castApp.controller('CastController',['castReady','$scope', function(castReady,$s
 
       $scope.$apply(function() {
 
-        $scope.vm.command = final_transcript;
-        if ($scope.vm.command == 'ok tv') $scope.fn.launch();
+        $scope.vm.command = final_transcript.toLowerCase();
+        if ($scope.vm.command == 'okay tv') $scope.fn.launch();
         else $scope.fn.sendMessage(final_transcript);
       });
     };

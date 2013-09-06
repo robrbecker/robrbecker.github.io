@@ -5,13 +5,19 @@
     <link href="app.css" rel="stylesheet">
   </head>
   <body class="receiver">
-    <div id="content">
+    
       <h1>
         Say something...
         <br>
-        {{vm.commandsReceived}} {{vm.command}}
+        <span ng-if="vm.commandsReceived>0">Msg #{{vm.commandsReceived}}</span>
+        <span class="vm.command">{{vm.command}}</span>
       </h1>
-    </div>
+      <div id="content">
+        
+      </div>    
+      
+    
+
 
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.min.js"></script>
     <script src="https://www.gstatic.com/cast/js/receiver/1.0/cast_receiver.js"></script>
@@ -22,8 +28,11 @@ var namespace = "OKTV-GDG-DEMO";
 var castAppId = '696627a5-d66b-4a7f-b8cc-b701b76e47b8_1';
 
 var oktvReceiver = angular.module('oktvReceiver',[]);
+oktvReceiver.config(function($sceDelegateProvider) {
+$sceDelegateProvider.resourceUrlWhitelist(['self','.*']);
+});
 
-function oktvReceiverCtrl($scope, $timeout) {
+function oktvReceiverCtrl($scope, $timeout, $sce) {
   console.log('Yep');
  
   
@@ -31,14 +40,14 @@ function oktvReceiverCtrl($scope, $timeout) {
   $scope.vm = {
     commandsReceived: 0,
     command: '...',
-    loaded: 'Yep'
+    loaded: 'Yep',
+    url: 'empty.html'
   };
 
   window.scope = $scope; // BAD! only for while developing
 
   $scope.fn = {
     onMessage: function(event) {
-      debugger;
       console.log('hoop',event);
       $timeout.cancel($scope.idleTimeout);
       $scope.idleTimeout = $timeout(shutItDown, timeoutMS, false);
@@ -46,6 +55,11 @@ function oktvReceiverCtrl($scope, $timeout) {
         $scope.vm.commandsReceived = $scope.vm.commandsReceived + 1;
         $scope.vm.command = event.message.command.toLowerCase();
         if ($scope.vm.command == 'shut it down') window.close();
+        else if ($scope.vm.command == 'rmef') {
+          document.getElementById('content').innerHTML = '<iframe src="//www.rmef.org/"></iframe>';
+        } else if ($scope.vm.command == 'watch cats') {
+          document.getElementById('content').innerHTML = '<iframe src="//www.youtube.com/embed/FOcjBP06CJo?start=26&autoplay=1" frameborder="0" allowfullscreen></iframe>';
+        }
       });
     }
   }

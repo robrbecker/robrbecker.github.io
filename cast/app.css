@@ -38,5 +38,17 @@ label input[type=radio] { position:relative; bottom: 3px; }
 
 .receiver h1 {
   font-size: 5vw;
-  margin-bottom: 22vh;
+  line-height: 5vw;
+}
+.red {
+  color: red;
+}
+
+.blue {
+  color: blue;
+}
+iframe {
+  border: none;
+  width: 99%;
+  height: 76vh;
 }
